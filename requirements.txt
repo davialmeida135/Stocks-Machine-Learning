@@ -1,0 +1,10 @@
+
+yfinance
+pandas
+numpy<2
+matplotlib
+datetime
+seaborn
+pandas_datareader
+torch
+scikit-learn
