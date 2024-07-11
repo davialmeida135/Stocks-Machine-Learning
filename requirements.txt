@@ -8,3 +8,4 @@ seaborn
 pandas_datareader
 torch
 scikit-learn
+plotly

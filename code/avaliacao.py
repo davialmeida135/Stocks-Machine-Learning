@@ -1,6 +1,10 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 import json
+import plotly.express as px
+import pandas as pd
+from sklearn.metrics import confusion_matrix
+
 with open('metrics.json', 'r') as f:
     metrics = json.load(f)
 
@@ -17,12 +21,26 @@ y_val_pred_class_np = metrics['y_val_pred_class_np']
 
 def perdas_treino_validacao():
     "Data arrays must have the same length."
-    print(len(loss_history[0]))
+    print(len(train_losses))
     print(len(val_losses))
-    assert len(range(num_epochs)) == len(loss_history[0]) == len(val_losses)
+    assert len(range(num_epochs)) == len(train_losses) == len(val_losses)
+    df = pd.DataFrame()
+    df['Epoch'] = range(num_epochs)
+    df['train_losses'] = train_losses
+    df['val_losses'] = val_losses
 
+    print(df.head(),df.tail())
 
+    fig = px.scatter_3d(df, x='train_losses', y='Epoch', z='val_losses' , color='train_losses',
+                        color_continuous_scale='picnic', opacity=0.8,
+                        size_max=10, hover_name='Epoch', hover_data=['train_losses', 'Epoch', 'val_losses'])
 
+    fig.update_layout(scene=dict(xaxis_title='train_losses', yaxis_title='Epoch', zaxis_title='val_losses'),
+                    title='Interactive 3D Scatter Plot by Grouping')
+
+    # Show the plot
+    fig.show()
+    '''
     # Plotando as perdas de treino e validação
     plt.figure(figsize=(10, 5))
     #sns.lineplot(data=(range(num_epochs), train_losses), marker='*' ,label='Train Loss')
@@ -34,5 +52,25 @@ def perdas_treino_validacao():
     plt.title('Train and Validation Loss over Epochs')
     plt.legend()
     plt.show()
+    '''
 
-perdas_treino_validacao()
+def matriz_confusao():
+    cm = confusion_matrix(y_val_np, y_val_pred_class_np)
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues")
+    plt.xlabel('Predicted')
+    plt.ylabel('True')
+    plt.title('Confusion Matrix')
+    plt.show()
+
+def perda_epocas():
+    loss = pd.DataFrame()
+    loss['Epoch'] = loss_history[0]
+    loss['Loss'] = loss_history[1]
+    loss
+    sns.lineplot(data=loss, x='Epoch', y='Loss')
+    plt.show()
+
+#perdas_treino_validacao()
+#matriz_confusao()
+perda_epocas()

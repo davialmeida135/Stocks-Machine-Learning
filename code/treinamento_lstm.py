@@ -1,7 +1,7 @@
 import torch
 from separacao import X_train, X_val, X_test, y_train, y_val, y_test
 import torch.nn as nn
-from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
+from sklearn.metrics import classification_report, accuracy_score, precision_score, recall_score, f1_score
 import json
 #Métricas de treino
 
