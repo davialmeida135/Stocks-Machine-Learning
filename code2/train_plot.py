@@ -72,4 +72,4 @@ def perda_epocas():
     sns.lineplot(data=loss, x='Epoch', y='Loss')
     plt.show()
 
-#perdas_treino_validacao()
+perdas_treino_validacao_3d()

@@ -11,7 +11,6 @@ import json
 def train_model(model, criterion, optimizer, X_train, y_train, X_val, y_val, num_epochs=100):
     train_losses = []
     val_losses = []
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     for epoch in range(num_epochs):
         model.train()
         outputs = model(X_train.unsqueeze(1)) # Adiciona uma dimensão para batch_size

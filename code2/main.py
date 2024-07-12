@@ -13,7 +13,6 @@ import torch
 import torch.nn as nn
 from train import train_model
 from evaluate import evaluate_model, inference
-import train_plot
 
 # Carregar os dados
 datapath = Path('stocks.csv')
@@ -28,7 +27,7 @@ hidden_size = 32
 num_layers = 2
 output_size = 1
 learning_rate = 0.01
-num_epochs = 1000
+num_epochs = 10000
 
 model = Model(input_size, hidden_size, num_layers, output_size).to(device)
 criterion = nn.BCEWithLogitsLoss().to(device)
