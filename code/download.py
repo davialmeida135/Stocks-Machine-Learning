@@ -22,7 +22,7 @@ tech_list = ['AAPL', 'GOOG', 'MSFT', 'AMZN','TSLA','NVDA','META','AMD','BABA','I
 
 for stock in tech_list:
     print(stock)
-    globals()[stock] = yf.download(stock, end="2024-01-01")
+    globals()[stock] = yf.download(stock, start="2024-01-01")
 
 
 company_list = [globals()[stock] for stock in tech_list]
@@ -30,3 +30,5 @@ company_name = ["APPLE", "GOOGLE", "MICROSOFT", "AMAZON","TESLA","NVIDIA","META"
 
 for company, com_name in zip(company_list, company_name):
     company["company_name"] = com_name
+
+

@@ -5,7 +5,7 @@ import plotly.express as px
 import pandas as pd
 from sklearn.metrics import confusion_matrix
 
-with open('metrics.json', 'r') as f:
+with open('train_metrics.json', 'r') as f:
     metrics = json.load(f)
 
 accuracy = metrics['accuracy']
@@ -71,5 +71,3 @@ def perda_epocas():
     plt.show()
 
 #perdas_treino_validacao()
-#matriz_confusao()
-perda_epocas()

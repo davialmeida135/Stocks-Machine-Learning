@@ -48,4 +48,4 @@ print(df.info())
 
 print(df.sort_values(by=['company_name',"Month","Day"]).head(15))
 
-df.to_csv('/stocks.csv', index=False)
+df.to_csv('2024stocks.csv', index=False)
