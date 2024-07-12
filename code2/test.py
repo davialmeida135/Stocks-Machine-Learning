@@ -7,7 +7,8 @@ from pathlib import Path
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from data.data import load_data, prepare_data
+from sklearn.preprocessing import MinMaxScaler
+from data.data import load_data, normalize_data, prepare_data
 from model import Model
 import torch 
 import torch.nn as nn
@@ -27,6 +28,9 @@ features, target = load_data(datapath)
 # Preparar os dados
 X_train, X_val, X_test, y_train, y_val, y_test, device = prepare_data(features, target,test_size=0.99)
 criterion = nn.BCEWithLogitsLoss().to(device)
+
+#Normalize data if needed
+#X_train,X_val,X_test = normalize_data(X_train,X_val,X_test,device)
 
 model_carregado = Model(input_size, hidden_size, num_layers, output_size).to(device)
 model_carregado.load_state_dict(torch.load(model_path))
