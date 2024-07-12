@@ -4,7 +4,7 @@ import pandas as pd
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 import numpy
 
-df = pd.read_csv('2024stocks.csv')
+df = pd.read_csv('stocks2024.csv')
 
 target = df['Will Increase']
 features = df[['Day','Month','Day of the Week', 'Open', 'High', 'Low', 'Close', 'Adj Close','close_variation','close_variation%','days_since_last_increase','days_since_last_decrease']]

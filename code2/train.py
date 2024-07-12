@@ -1,3 +1,7 @@
+#######################################################
+#  FUNÇÃO QUE TREINA E SALVA MÉTRICAS DO TREINAMENTO  #
+#######################################################
+
 from sklearn.metrics import f1_score, precision_score, recall_score
 import torch
 import torch.nn as nn
@@ -61,4 +65,5 @@ def train_model(model, criterion, optimizer, X_train, y_train, X_val, y_val, num
 
     with open('train_metrics.json', 'w') as f:
         json.dump(metrics, f)
-        return train_losses, val_losses
+        
+    return train_losses, val_losses

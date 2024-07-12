@@ -1,9 +1,13 @@
+################################
+# TREINO E AVALIAÇÃO DO MODELO #
+################################
+
 import os
 from pathlib import Path
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-from data import load_data, prepare_data
+from data.data import load_data, prepare_data
 from model import Model
 import torch 
 import torch.nn as nn
@@ -33,8 +37,13 @@ optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 # Treinar o modelo
 train_losses, val_losses = train_model(model, criterion, optimizer, X_train, y_train, X_val, y_val, num_epochs)
 
-# Avaliar o modelo
+# Avaliar/Testar o modelo
 evaluate_model(model, criterion, X_test, y_test)
+
+# Salvando os pesos do modelo
+model_path = Path('modelo_treinado.pth')
+torch.save(model.state_dict(), model_path)
+print("Modelo salvo com sucesso.")
 
 '''
 # Inferência para cenários
@@ -50,11 +59,6 @@ cenario_proximo_zero = pd.DataFrame({
 prob_proximo_zero = inference(model, cenario_proximo_zero)
 print(f"Previsão para o Cenário Próximo de Zero: {prob_proximo_zero:.4f}")
 '''
-# Salvando os pesos do modelo
-model_path = Path('modelo_treinado.pth')
-torch.save(model.state_dict(), model_path)
-print("Modelo salvo com sucesso.")
-
 
 '''
 # Carregando e Usando o Modelo

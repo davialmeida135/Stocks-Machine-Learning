@@ -1,3 +1,7 @@
+############################################################
+# GRÁFICOS PLOTADOS A PARTIR DOS DADOS DO TREINO DO MODELO #
+############################################################
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 import json
@@ -18,10 +22,8 @@ train_losses = metrics['train_losses']
 y_val_np = metrics['y_val_np']
 y_val_pred_class_np = metrics['y_val_pred_class_np']
 
-def perdas_treino_validacao():
+def perdas_treino_validacao_3d():
     "Data arrays must have the same length."
-    print(len(train_losses))
-    print(len(val_losses))
     assert len(range(num_epochs)) == len(train_losses) == len(val_losses)
     df = pd.DataFrame()
     df['Epoch'] = range(num_epochs)
@@ -35,11 +37,12 @@ def perdas_treino_validacao():
                         size_max=10, hover_name='Epoch', hover_data=['train_losses', 'Epoch', 'val_losses'])
 
     fig.update_layout(scene=dict(xaxis_title='train_losses', yaxis_title='Epoch', zaxis_title='val_losses'),
-                    title='Interactive 3D Scatter Plot by Grouping')
+                    title='3D Scatter Plot comparing training loss and validation loss through epochs')
 
     # Show the plot
     fig.show()
-    '''
+
+def perdas_treino_validacao():
     # Plotando as perdas de treino e validação
     plt.figure(figsize=(10, 5))
     #sns.lineplot(data=(range(num_epochs), train_losses), marker='*' ,label='Train Loss')
@@ -51,7 +54,6 @@ def perdas_treino_validacao():
     plt.title('Train and Validation Loss over Epochs')
     plt.legend()
     plt.show()
-    '''
 
 def matriz_confusao():
     cm = confusion_matrix(y_val_np, y_val_pred_class_np)
