@@ -1,13 +1,10 @@
 # For reading stock data from yahoo
 import yfinance as yf
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 import datetime as dt
 import time
-import seaborn as sns
 #from pandas_datareader.data import DataReader
-import yfinance as yf
+
 #from pandas_datareader import data as pdr
 
 yf.pdr_override()
