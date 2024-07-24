@@ -53,6 +53,7 @@ def evaluate_model(model, criterion, X_test, y_test):
     with open('eval_metrics.json', 'w') as f:
         json.dump(metrics, f)
 
+
 #Função para testar um cenário específico
 def inference(model, scenario):
     scenario_tensor = torch.from_numpy(scenario.values).float().to(next(model.parameters()).device)

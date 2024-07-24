@@ -6,6 +6,7 @@ from sklearn.preprocessing import MinMaxScaler
 import torch 
 from sklearn.model_selection import train_test_split
 import numpy as np
+import json
 
 def load_data(file_path):
     df = pd.read_csv(file_path)
@@ -15,10 +16,16 @@ def load_data(file_path):
     return features , target
 
 def prepare_data(features, target, test_size=0.2, val_size=0.25):
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+    if test_size == 1:
+        # Assuming 'target' is your pandas DataFrame
+        X_test=torch.from_numpy(features.to_numpy()).float().to(device)
+        y_test=torch.from_numpy(target.to_numpy()).float().to(device)
+        return None, None, X_test, None, None, y_test, device
+    
     X_train, X_test, y_train, y_test = train_test_split(features, target, test_size=test_size, random_state=42)
     X_train, X_val, y_train, y_val = train_test_split(X_train, y_train, test_size=val_size, random_state=42)
-
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     X_train = torch.from_numpy(X_train.values).float().to(device)
     X_val = torch.from_numpy(X_val.values).float().to(device)
@@ -40,3 +47,24 @@ def normalize_data(x_train, x_val, x_test, device):
     x_test = torch.tensor(x_test, dtype=torch.float32).to(device)
 
     return x_train, x_val, x_test
+
+def merge_data(file_path):
+    df = pd.read_csv(file_path)
+    
+    with open('eval_metrics.json', 'r') as f:
+        metrics = json.load(f)
+
+    y_test_pred_class_np = metrics['y_test_pred_class_np']
+    if len(y_test_pred_class_np) != df.shape[0]:
+        print("Predição de tamanho diferente do dataset")
+        return None
+    
+    if 'Will Increase' in df.columns:
+        will_increase = df.pop('Will Increase')  # Remove the column and store it
+        df['Will Increase'] = will_increase
+
+    df['Predicted'] = y_test_pred_class_np
+    df['Predicted'] = df['Predicted'].map({0: False, 1: True})
+    
+    df.to_csv('results.csv')
+    return df

@@ -8,7 +8,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler
-from data.data import load_data, normalize_data, prepare_data
+from data.data import load_data, normalize_data, prepare_data, merge_data
 from model import Model
 import torch 
 import torch.nn as nn
@@ -24,9 +24,10 @@ datapath = Path('stocks2024.csv')
 model_path = Path('historico/10kepocas-0.01LR/modelo_treinado.pth')
 
 features, target = load_data(datapath)
+test_size = 1
 
 # Preparar os dados
-X_train, X_val, X_test, y_train, y_val, y_test, device = prepare_data(features, target,test_size=0.99)
+X_train, X_val, X_test, y_train, y_val, y_test, device = prepare_data(features, target,test_size=test_size)
 criterion = nn.BCEWithLogitsLoss().to(device)
 
 #Normalize data if needed
@@ -37,3 +38,5 @@ model_carregado.load_state_dict(torch.load(model_path))
 model_carregado.eval()
 print("Modelo carregado com sucesso.")
 evaluate_model(model_carregado, criterion, X_test, y_test)
+
+results_df = merge_data(datapath)
