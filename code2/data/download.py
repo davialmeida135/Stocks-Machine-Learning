@@ -21,7 +21,7 @@ tech_list = ['AAPL', 'GOOG', 'MSFT', 'AMZN','TSLA','NVDA','META','AMD','BABA','I
 
 for stock in tech_list:
     print(stock)
-    globals()[stock] = yf.download(stock, end="2024-01-01")
+    globals()[stock] = yf.download(stock, start="2024-01-01")
 
 
 company_list = [globals()[stock] for stock in tech_list]

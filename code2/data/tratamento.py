@@ -52,4 +52,4 @@ print(df.info())
 #print(df.drop_duplicates().info())
 print(df.sort_values(by=['company_name',"Date"]).head(15))
 
-df.to_csv('stocks.csv', index=False)
+df.to_csv('stocks2024.csv', index=False)

@@ -21,7 +21,7 @@ num_layers = 2
 output_size = 1
 
 datapath = Path('stocks2024.csv')
-model_path = Path('modelo_treinado.pth')
+model_path = Path('historico/10kepocas-0.01LR/modelo_treinado.pth')
 
 features, target = load_data(datapath)
 
