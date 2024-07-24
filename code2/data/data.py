@@ -37,14 +37,20 @@ def prepare_data(features, target, test_size=0.2, val_size=0.25):
 
     return X_train, X_val, X_test, y_train, y_val, y_test, device
 
-def normalize_data(x_train, x_val, x_test, device):
+def normalize_data(x_train, x_val=None, x_test=None, device=None):
     scaler = MinMaxScaler()  # or StandardScaler()
-    x_train = scaler.fit_transform(x_train)
-    x_val = scaler.transform(x_val)
-    x_test = scaler.transform(x_test)
+    if device is None:
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    
+    x_train = scaler.fit_transform(x_train) 
     x_train = torch.tensor(x_train, dtype=torch.float32).to(device)
-    x_val = torch.tensor(x_val, dtype=torch.float32).to(device)
-    x_test = torch.tensor(x_test, dtype=torch.float32).to(device)
+
+    if x_val is not None:
+        x_val = scaler.transform(x_val)
+        x_val = torch.tensor(x_val, dtype=torch.float32).to(device)
+    if x_test is not None:
+        x_test = scaler.transform(x_test)    
+        x_test = torch.tensor(x_test, dtype=torch.float32).to(device)
 
     return x_train, x_val, x_test
 
@@ -65,6 +71,7 @@ def merge_data(file_path):
 
     df['Predicted'] = y_test_pred_class_np
     df['Predicted'] = df['Predicted'].map({0: False, 1: True})
-    
-    df.to_csv('results.csv')
+    df = df.iloc[:, 0:]
+    print(df.tail())
+    df.to_csv('results.csv',index=False)
     return df
