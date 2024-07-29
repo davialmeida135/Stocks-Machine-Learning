@@ -6,6 +6,8 @@ matplotlib
 datetime
 seaborn
 pandas_datareader
-torch
+torch==2.3.0
+torchvision==0.18.0
+torchaudio==2.3.0
 scikit-learn
 plotly
