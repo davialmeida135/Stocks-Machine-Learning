@@ -18,8 +18,8 @@ def load_data(file_path):
 def prepare_data(features, target, test_size=0.2, val_size=0.25):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
+    #Caso queira preparar o modelo com o conjunto completo
     if test_size == 1:
-        # Assuming 'target' is your pandas DataFrame
         X_test=torch.from_numpy(features.to_numpy()).float().to(device)
         y_test=torch.from_numpy(target.to_numpy()).float().to(device)
         return None, None, X_test, None, None, y_test, device
