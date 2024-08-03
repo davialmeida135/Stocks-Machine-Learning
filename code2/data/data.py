@@ -2,18 +2,28 @@
 # FUNÇÕES PARA CARREGAMENTO E DIVISÃO DOS DADOS PARA TREINO E TESTE #
 #####################################################################
 import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 import torch 
 from sklearn.model_selection import train_test_split
 import numpy as np
 import json
 
-def load_data(file_path):
+def load_data(file_path, company=None):
     df = pd.read_csv(file_path)
-    target = df['Will Increase']
-    features = df[['Day','Month','Day of the Week', 'Open', 'High', 'Low', 'Close', 'Adj Close','close_variation','close_variation%','days_since_last_increase','days_since_last_decrease']]
-
-    return features , target
+    
+    # One-hot encode the company names
+    if not company:
+        
+        encoder = OneHotEncoder(sparse_output=False)
+        company_names_encoded = encoder.fit_transform(df[['company_name']])
+        company_names_encoded_df = pd.DataFrame(company_names_encoded, columns=encoder.get_feature_names_out(['company_name']))
+        features = pd.concat([df[['Day','Month','Day of the Week', 'Open', 'High', 'Low', 'Close', 'Adj Close','close_variation','close_variation%','days_since_last_increase','days_since_last_decrease']], company_names_encoded_df], axis=1)
+    else:
+        features = df[df['company_name']==company]
+        target = features['Will Increase']
+        features = features[['Day','Month','Day of the Week', 'Open', 'High', 'Low', 'Close', 'Adj Close','close_variation','close_variation%','days_since_last_increase','days_since_last_decrease']]
+    print (df)
+    return features, target
 
 def prepare_data(features, target, test_size=0.2, val_size=0.25):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
