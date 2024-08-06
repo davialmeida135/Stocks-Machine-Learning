@@ -1,0 +1,7 @@
+3000 épocas
+2 features (Open e Volume)
+Predizer Close
+
+Removido Dropout (agora funciona)
+
+Num layers = 2 (deu errado)

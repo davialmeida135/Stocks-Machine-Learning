@@ -1,0 +1,9 @@
+3000 épocas
+2 features (Open, Volume)(deu errado)
+Predizer Close
+
+Removido Dropout (agora funciona)
+
+Num layers = 1 
+
+Implementado batch size = 32
