@@ -32,7 +32,7 @@ if 'Date' in df.columns:
   df['Day of the Week'] = df['Date'].dt.dayofweek
 
 column_order = [
-    'Date','Open', 'Close',
+    'Date','Close',
 ]
 
 df = df[column_order].dropna()

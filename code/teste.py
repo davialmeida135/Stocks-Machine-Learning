@@ -9,11 +9,11 @@ model = tf.keras.models.load_model('code/saved_model.keras')
 # Load the data
 filename = 'code/stocks-2.csv'
 df = pd.read_csv(filename,index_col='Date',parse_dates=True)
-df = df[['Open', 'Close']]
+df = df[['Close']]
 
 filename = 'code/stocks2024-2.csv'
 df2024 = pd.read_csv(filename,index_col='Date',parse_dates=True)
-df2024 = df2024[['Open', 'Close']]
+df2024 = df2024[['Close']]
 
 extdf = pd.concat([df, df2024])
 
@@ -34,7 +34,7 @@ def create_sequence(dataset):
     labels = []
     start_idx = 0
 
-    for stop_idx in range(50, len(dataset)): 
+    for stop_idx in range(16, len(dataset)): 
         sequences.append(dataset.iloc[start_idx:stop_idx])
         labels.append(dataset.iloc[stop_idx])
         start_idx += 1
@@ -54,8 +54,8 @@ test_inverse_predicted = Ms.inverse_transform(test_predicted)
 num_predictions = test_inverse_predicted.shape[0]
 df_slice = extdf.iloc[-num_predictions:].copy()
 # Merging actual and predicted data for better visualization
-df_slic_data = pd.concat([df_slice, pd.DataFrame(test_inverse_predicted, columns=['open_predicted', 'close_predicted'], index=df_slice.index)], axis=1)
-df_slic_data[['Open', 'Close']] = Ms.inverse_transform(df_slic_data[['Open', 'Close']])
+df_slic_data = pd.concat([df_slice, pd.DataFrame(test_inverse_predicted, columns=['close_predicted'], index=df_slice.index)], axis=1)
+df_slic_data[['Close']] = Ms.inverse_transform(df_slic_data[['Close']])
 
 # Save the results to a CSV file
 df_slic_data.to_csv('code/results.csv')

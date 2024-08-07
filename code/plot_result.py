@@ -33,4 +33,4 @@ def plot_forecast():
     ax.minorticks_on()  # Enable minor ticks
     plt.show()
 
-plot_forecast()
+plot_normal()

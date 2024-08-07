@@ -13,7 +13,7 @@ from datetime import datetime
 
 
 # The tech stocks we'll use for this analysis
-tech_list = ['AAPL',]
+tech_list = ['^IXIC',]
 
 # Set up End and Start times for data grab
 #end = datetime.now()
@@ -25,9 +25,10 @@ for stock in tech_list:
 
 
 company_list = [globals()[stock] for stock in tech_list]
-company_name = ["APPLE", ]
+company_name = ["NASDAQ", ]
 
 for company, com_name in zip(company_list, company_name):
     company["company_name"] = com_name
 
 
+print(company_list)
