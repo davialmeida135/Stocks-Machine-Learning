@@ -59,21 +59,25 @@ history = model.fit(train_seq, train_label, epochs=150, validation_data=(test_se
 # Save the model
 model.save('code/saved_model.keras')
 
-# Make predictions
-test_predicted = model.predict(test_seq)
+# Combine train and test sequences for prediction
+combined_seq = np.concatenate((train_seq, test_seq), axis=0)
+combined_label = np.concatenate((train_label, test_label), axis=0)
+
+# Make predictions for the combined dataset
+combined_predicted = model.predict(combined_seq)
 
 # Inverse transform the predictions
-test_inverse_predicted = Ms.inverse_transform(test_predicted)
+combined_inverse_predicted = Ms.inverse_transform(combined_predicted)
 
+# Determine the number of predictions
+num_predictions = combined_inverse_predicted.shape[0]
 
+# Create a DataFrame for the combined predictions
+df_combined = df.iloc[-num_predictions:].copy()
+df_combined['close_predicted'] = combined_inverse_predicted
 
-num_predictions = test_inverse_predicted.shape[0]
-df_slice = df.iloc[-num_predictions:].copy()
-# Merging actual and predicted data for better visualization
-gs_slic_data = pd.concat([df_slice, pd.DataFrame(test_inverse_predicted, columns=['close_predicted'], index=df_slice.index)], axis=1)
-gs_slic_data[['Close']] = Ms.inverse_transform(gs_slic_data[['Close']])
-
-
+# Inverse transform the actual close prices
+df_combined[['Close']] = Ms.inverse_transform(df_combined[['Close']])
 
 # Collecting stats and metrics
 stats = {
@@ -90,22 +94,28 @@ with open('code/stats.json', 'w') as f:
     json.dump(stats, f, indent=4)
 
 # Save the results to a CSV file
-gs_slic_data.to_csv('code/results.csv')
+df_combined.to_csv('code/results.csv')
 
-# Create a figure with two subplots
-fig, ax = plt.subplots(2, 1, figsize=(10, 12))
+# Create a figure with a single plot
+fig, ax = plt.subplots(figsize=(10, 12))
 
-# First subplot: Actual vs Predicted Open prices
-# Second subplot: Actual vs Predicted Close prices
-gs_slic_data[['Close', 'close_predicted']].plot(ax=ax[1])
-ax[1].set_xticklabels(ax[1].get_xticks(), rotation=45)
-ax[1].set_xlabel('Date', size=15)
-ax[1].set_ylabel('Stock Price', size=15)
-ax[1].set_title('Actual vs Predicted for Close Price', size=15)
-ax[1].legend()
+# Plot actual vs predicted close prices for the entire dataset
+df_combined[['Close', 'close_predicted']].plot(ax=ax, color=['blue', 'red'], label=['Actual', 'Predicted'])
+
+# Draw a vertical line to mark 80% of the data
+train_size = len(train_seq)
+vertical_line_date = df_combined.index[train_size]
+plt.axvline(x=vertical_line_date, color='k', linestyle='--', linewidth=1, label='80% Training Data')
+
+# Customize the plot
+ax.set_xticklabels(ax.get_xticks(), rotation=45)
+ax.set_xlabel('Date', size=15)
+ax.set_ylabel('Stock Price', size=15)
+ax.set_title('Actual vs Predicted for Close Price', size=15)
+ax.legend()
 
 # Adjust layout
 plt.tight_layout()
 
-# Show the plots
+# Show the plot
 plt.show()

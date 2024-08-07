@@ -2,13 +2,16 @@ import matplotlib.pyplot as plt
 import pandas as pd
 def plot_normal():
     df=pd.read_csv('code/results.csv',index_col='Date',parse_dates=True)
-
+    vertical_line_position = int(len(df) * 0.80)
+    vertical_line_date = df.index[vertical_line_position]
     # Plotting the data
-    ax = df[['Open', 'open_predicted']].plot(figsize=(10, 6))
+    ax = df[['Close', 'close_predicted']].plot(figsize=(10, 6))
+    plt.axvline(x=vertical_line_date, color='k', linestyle='--', linewidth=1, label='80% Training Data')
+
     plt.xticks(rotation=45)
     plt.xlabel('Date', size=15)
     plt.ylabel('Stock Price', size=15)
-    plt.title('Actual vs Predicted for Open Price', size=15)
+    plt.title('Actual vs Predicted for Close Price', size=15)
     ax.grid(True, which='both', linestyle='--', linewidth=0.5)
     ax.minorticks_on()  # Enable minor ticks
     plt.show()

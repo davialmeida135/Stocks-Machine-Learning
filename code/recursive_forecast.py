@@ -9,7 +9,7 @@ model = tf.keras.models.load_model('code/saved_model.keras')
 # Load the data
 filename = 'code/stocks-2.csv'
 df = pd.read_csv(filename, index_col='Date', parse_dates=True)
-df = df[['Open', 'Close']]
+df = df[['Close']]
 
 # Initialize the scaler
 Ms = MMS()
@@ -20,7 +20,7 @@ future_dates = pd.date_range(start=df.index[-1], periods=30, freq='D')
 future_data = pd.DataFrame(index=future_dates, columns=df.columns)
 
 # Generate synthetic data for future dates (e.g., using the last known values)
-future_data['Open'] = df['Open'].iloc[-1]
+
 future_data['Close'] = df['Close'].iloc[-1]
 
 # Combine the original and future data
@@ -77,7 +77,7 @@ for _ in range(num_predictions):
 
 # Convert predictions to DataFrame
 future_dates = pd.date_range(start=extended_df.index[-1], periods=num_predictions + 1, freq='D')[1:]
-predicted_df = pd.DataFrame(predictions, columns=['open_predicted', 'close_predicted'], index=future_dates)
+predicted_df = pd.DataFrame(predictions, columns=['close_predicted'], index=future_dates)
 
 # Save the results to a CSV file
 predicted_df.to_csv('code/future_predictions.csv',index=True)
