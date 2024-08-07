@@ -27,7 +27,7 @@ def plot_forecast():
     merged_df = predicted_df.merge(actual_df, left_index=True, right_index=True, suffixes=('_predicted', '_actual'))
     
     # Plotting the data
-    ax = merged_df[['open_predicted', 'Open']].plot(figsize=(10, 6))
+    ax = merged_df[['close_predicted', 'Close']].plot(figsize=(10, 6))
     plt.xticks(rotation=45)
     plt.xlabel('Date', size=15)
     plt.ylabel('Stock Price', size=15)
@@ -36,4 +36,5 @@ def plot_forecast():
     ax.minorticks_on()  # Enable minor ticks
     plt.show()
 
-plot_normal()
+#plot_normal()
+plot_forecast()

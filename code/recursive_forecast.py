@@ -16,7 +16,7 @@ Ms = MMS()
 df[df.columns] = Ms.fit_transform(df)
 
 # Extend the dataset with future dates
-future_dates = pd.date_range(start=df.index[-1], periods=30, freq='D')
+future_dates = pd.date_range(start=df.index[-1] + pd.Timedelta(days=1), periods=30, freq='D')
 future_data = pd.DataFrame(index=future_dates, columns=df.columns)
 
 # Generate synthetic data for future dates (e.g., using the last known values)
@@ -26,10 +26,8 @@ future_data['Close'] = df['Close'].iloc[-1]
 # Combine the original and future data
 extended_df = pd.concat([df, future_data])
 
-# Scale the extended dataset
-extended_df[extended_df.columns] = Ms.transform(extended_df)
-
 # Create sequences for prediction
+lookback = 16
 def create_sequence(dataset, lookback=50):
     sequences = []
     labels = []
@@ -44,12 +42,8 @@ def create_sequence(dataset, lookback=50):
 
 # Split the data into training and testing sets
 training_size = round(len(extended_df) * 0.80)
-train_data = extended_df[:training_size]
 test_data = extended_df[training_size:]
-
-# Create sequences from the training and testing data
-train_seq, train_label = create_sequence(train_data)
-test_seq, test_label = create_sequence(test_data)
+test_seq, test_label = create_sequence(test_data,lookback)
 
 # Predict the initial sequence
 test_predicted = model.predict(test_seq)
@@ -59,7 +53,6 @@ test_inverse_predicted = Ms.inverse_transform(test_predicted)
 
 # Recursive prediction
 num_predictions = 30  # Number of future predictions
-lookback = 50
 predictions = []
 
 # Use the last sequence from the test data to start the recursive prediction
@@ -76,8 +69,10 @@ for _ in range(num_predictions):
     last_sequence = next_sequence
 
 # Convert predictions to DataFrame
-future_dates = pd.date_range(start=extended_df.index[-1], periods=num_predictions + 1, freq='D')[1:]
+future_dates = pd.date_range(start=df.index[-1] + pd.Timedelta(days=1), periods=30, freq='D')
 predicted_df = pd.DataFrame(predictions, columns=['close_predicted'], index=future_dates)
 
+predicted_df.index.name = 'Date'
+print(predicted_df.head())
 # Save the results to a CSV file
 predicted_df.to_csv('code/future_predictions.csv',index=True)
