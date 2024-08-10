@@ -75,14 +75,22 @@ df_combined[['Close']] = Ms.inverse_transform(df_combined[['Close']])
 
 # Save the results to a CSV file
 df_combined.to_csv('code/results.csv')
+import matplotlib.dates as mdates
 
+df_combined = pd.read_csv('code/results.csv',index_col='Date',parse_dates=True)
 # Create a figure with a single plot
-fig, ax = plt.subplots(figsize=(5, 7))
+fig, ax = plt.subplots(figsize=(10,5))
 
 # Plot actual vs predicted close prices for the entire dataset
 df_combined[['Close', 'close_predicted']].plot(ax=ax, color=['blue', 'red'], label=['Actual', 'Predicted'])
+# Set the date format on the X-axis
+# Set the date format on the X-axis
+ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+ax.xaxis.set_major_locator(mdates.AutoDateLocator())
 
-ax.set_xticklabels(ax.get_xticks(), rotation=45)
+# Rotate and align the tick labels so they look better
+fig.autofmt_xdate()
+
 ax.set_xlabel('Date', size=15)
 ax.set_ylabel('Stock Price', size=15)
 ax.set_title('Actual vs Predicted for Close Price', size=15)

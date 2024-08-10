@@ -4,6 +4,8 @@ def plot_normal():
     df=pd.read_csv('code/results.csv',index_col='Date',parse_dates=True)
     vertical_line_position = int(len(df) * 0.80)
     vertical_line_date = df.index[vertical_line_position]
+    df = df[df.index >= pd.to_datetime('2000-01-01')]
+
     # Plotting the data
     ax = df[['Close', 'close_predicted']].plot(figsize=(10, 6))
     plt.axvline(x=vertical_line_date, color='k', linestyle='--', linewidth=1, label='80% Training Data')
@@ -36,5 +38,5 @@ def plot_forecast():
     ax.minorticks_on()  # Enable minor ticks
     plt.show()
 
-#plot_normal()
-plot_forecast()
+plot_normal()
+#plot_forecast()

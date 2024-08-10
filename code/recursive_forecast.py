@@ -27,7 +27,7 @@ future_data['Close'] = df['Close'].iloc[-1]
 extended_df = pd.concat([df, future_data])
 
 # Create sequences for prediction
-lookback = 16
+lookback = 64
 def create_sequence(dataset, lookback=50):
     sequences = []
     labels = []

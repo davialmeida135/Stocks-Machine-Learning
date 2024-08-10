@@ -24,7 +24,7 @@ training_size = round(len(df) * 0.80)
 train_data = df[:training_size]
 test_data = df[training_size:]
 
-seq_length = 16
+seq_length = 64
 
 def create_sequences(data, seq_length):
     sequences = []
@@ -41,11 +41,14 @@ train_seq, train_label = create_sequences(train_data, seq_length)
 test_seq, test_label = create_sequences(test_data, seq_length)
 
 # Define the model
+from tensorflow.keras.layers import Bidirectional
+
 model = Sequential()
-model.add(LSTM(units=50, return_sequences=True, input_shape=(train_seq.shape[1], train_seq.shape[2])))
+model.add(Bidirectional(LSTM(units=100, return_sequences=True), input_shape=(train_seq.shape[1], train_seq.shape[2])))
 model.add(Dropout(0.1))
-model.add(LSTM(units=50))
-model.add(Dense(1))  # Updated to match the number of features
+model.add(LSTM(units=100))
+model.add(Dense(1))
+
 
 model.compile(loss='mean_squared_error', optimizer='adam', metrics=['mean_absolute_error'])
 
@@ -97,7 +100,7 @@ with open('code/stats.json', 'w') as f:
 df_combined.to_csv('code/results.csv')
 
 # Create a figure with a single plot
-fig, ax = plt.subplots(figsize=(10, 12))
+fig, ax = plt.subplots(figsize=(10, 7))
 
 # Plot actual vs predicted close prices for the entire dataset
 df_combined[['Close', 'close_predicted']].plot(ax=ax, color=['blue', 'red'], label=['Actual', 'Predicted'])
