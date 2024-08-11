@@ -8,6 +8,8 @@ from keras.layers import Dense, Dropout, LSTM, Bidirectional
 from data.data import load_data
 import matplotlib.pyplot as plt
 import numpy as np
+from tensorflow.keras.layers import GRU, Dense, Dropout
+
 
 # Load the data
 filename = 'code/stocks-2.csv'
@@ -46,9 +48,10 @@ from tensorflow.keras.layers import Bidirectional
 model = Sequential()
 model.add(Bidirectional(LSTM(units=100, return_sequences=True), input_shape=(train_seq.shape[1], train_seq.shape[2])))
 model.add(Dropout(0.1))
-model.add(LSTM(units=100))
+model.add(LSTM(units=100, return_sequences=True))
+model.add(LSTM(units=50))
+model.add(Dense(50, activation='relu'))
 model.add(Dense(1))
-
 
 model.compile(loss='mean_squared_error', optimizer='adam', metrics=['mean_absolute_error'])
 

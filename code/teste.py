@@ -3,10 +3,12 @@ import tensorflow as tf
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler as MMS
 import numpy as np
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+import json
 
 # Load the saved model
 model = tf.keras.models.load_model('code/saved_model.keras')
-
+#model = tf.keras.models.load_model('code/saved_models/m4/saved_model.keras')
 # Load the data
 filename = 'code/stocks-2.csv'
 df = pd.read_csv(filename,index_col='Date',parse_dates=True)
@@ -72,6 +74,21 @@ df_combined['close_predicted'] = combined_inverse_predicted[:, 0]  # Assuming 'C
 df_combined[['Close']] = Ms.inverse_transform(df_combined[['Close']])
 
 # Collecting stats and metrics
+# Calculate metrics
+mse = mean_squared_error(df_combined['Close'], df_combined['close_predicted'])
+mae = mean_absolute_error(df_combined['Close'], df_combined['close_predicted'])
+r2 = r2_score(df_combined['Close'], df_combined['close_predicted'])
+
+# Collecting stats and metrics
+metrics = {
+    'mean_squared_error': mse,
+    'mean_absolute_error': mae,
+    'r2_score': r2
+}
+
+# Save the metrics to a JSON file
+with open('code/test_metrics.json', 'w') as f:
+    json.dump(metrics, f, indent=4)
 
 # Save the results to a CSV file
 df_combined.to_csv('code/results.csv')

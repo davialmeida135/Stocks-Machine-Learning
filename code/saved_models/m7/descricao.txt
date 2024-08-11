@@ -1,0 +1,9 @@
+2048
+model = Sequential()
+model.add(GRU(units=50, return_sequences=True, input_shape=(train_seq.shape[1], train_seq.shape[2])))
+model.add(Dropout(0.1))
+model.add(GRU(units=50))
+model.add(Dense(1))
+model.compile(loss='mean_squared_error', optimizer='adam', metrics=['mean_absolute_error'])
+
+20 epochs
