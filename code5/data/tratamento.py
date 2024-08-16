@@ -41,4 +41,4 @@ df.set_index('Date', drop=True, inplace=True)
 
 print(df.drop_duplicates().head())
 
-df.to_csv('code5/stocks2024-2.csv')
+df.to_csv('code5/stocks-2.csv')

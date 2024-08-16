@@ -39,13 +39,24 @@ def plot_forecast():
     ax.minorticks_on()  # Enable minor ticks
     plt.show()
 
+from sklearn.preprocessing import MinMaxScaler
+
 def plot_2024():
     # Read the actual data
-    actual_df = pd.read_csv('code/stocks2024-2.csv', index_col='Date', parse_dates=True)
+    # Initialize the MinMaxScaler
+    scaler = MinMaxScaler()
+
+    actual_df = pd.read_csv('code/stocks-2.csv', index_col='Date', parse_dates=True)
     
+
     # Filter the data to include only dates in 2024
-    actual_df = actual_df[(actual_df.index.year == 2024) & (actual_df.index.month < 2)]
-    
+    #actual_df = actual_df[(actual_df.index.year == 2024) & (actual_df.index.month < 2)]
+    actual_df = actual_df.loc['2020-05-01':]
+    #actual_df = actual_df[actual_df.index <= pd.to_datetime('2024-12-31')]
+    mean = actual_df.mean()
+    std = actual_df.std()
+    actual_df = (actual_df - mean) / std
+    print(actual_df.tail())
     # Plotting the data
     ax = actual_df[['Close']].plot(figsize=(10, 6))
     plt.xticks(rotation=45)

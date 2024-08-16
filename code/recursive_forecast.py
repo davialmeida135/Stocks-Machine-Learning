@@ -14,7 +14,7 @@ filename = 'code/stocks-2.csv'
 df = pd.read_csv(filename, index_col='Date', parse_dates=True)
 df = df[['Close']]
 
-#df = df[df.index <= '2020-08-06']
+df = df[df.index <= '2023-12-31']
 # Initialize the scaler
 Ms = MMS()
 df[df.columns] = Ms.fit_transform(df)
@@ -32,7 +32,7 @@ future_data['Close'] = df['Close'].iloc[-1]
 extended_df = pd.concat([df, future_data])
 
 # Create sequences for prediction
-lookback = 64
+lookback = 128
 def create_sequence(dataset, lookback=50):
     sequences = []
     labels = []

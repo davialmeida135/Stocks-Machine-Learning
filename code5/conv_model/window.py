@@ -15,11 +15,9 @@ class WindowGenerator():
         # Filter the data to include only dates in 2024
         #self.df = self.df[(self.df.index.year == 2024) & (self.df.index.month < 2)]
         self.df = self.df.loc['2019-06-01':]
-        #self.df = self.df[self.df.index <= pd.to_datetime('2024-12-31')]
         mean = self.df.mean()
         std = self.df.std()
         self.norm_df = (self.df - mean) / std
-        
 
         # Split the data
         self.train_df = self.norm_df.loc[:'2024-02-01']
@@ -231,7 +229,7 @@ class WindowGenerator():
         result = getattr(self, '_example', None)
         if result is None:
             # No example batch was found, so get one from the `.train` dataset
-            result = next(iter(self.make_dataset(df)))
+            result = next(iter(self.make_dataset(df, shuffle=False)))
             # And cache it for next time
             self._example = result
         print('===++++++++++++++++==========')

@@ -231,7 +231,7 @@ class WindowGenerator():
         result = getattr(self, '_example', None)
         if result is None:
             # No example batch was found, so get one from the `.train` dataset
-            result = next(iter(self.make_dataset(df)))
+            result = next(iter(self.make_dataset(df,shuffle=False)))
             # And cache it for next time
             self._example = result
         print('===++++++++++++++++==========')

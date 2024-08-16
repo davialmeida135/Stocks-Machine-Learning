@@ -21,7 +21,7 @@ tech_list = ['^IXIC',]
 
 for stock in tech_list:
     print(stock)
-    globals()[stock] = yf.download(stock, start="2024-01-01")
+    globals()[stock] = yf.download(stock,)
 
 
 company_list = [globals()[stock] for stock in tech_list]
