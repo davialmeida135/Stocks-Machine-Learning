@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
-
 from window import WindowGenerator
 from var import INPUT_WIDTH, OUT_STEPS
 
@@ -13,7 +12,7 @@ df = pd.read_csv('code5/stocks-2.csv', index_col='Date', parse_dates=True)
 
 # Filter the data to include only dates in 2024
 #df = df[(df.index.year == 2024) & (df.index.month < 2)]
-df = df.loc['2024-02-15':]
+df = df.loc['2024-02-01':]
 #df = df[df.index <= pd.to_datetime('2024-12-31')]
 mean = df.mean()
 std = df.std()
@@ -22,8 +21,7 @@ df = (df - mean) / std
 # Load the saved model
 model = tf.keras.models.load_model('code5/conv_model.keras')
 
-
-multi_window = WindowGenerator(input_width=64,
+multi_window = WindowGenerator(input_width=INPUT_WIDTH,
                                label_width=OUT_STEPS,
                                shift=OUT_STEPS)
 '''multi_val_performance={}

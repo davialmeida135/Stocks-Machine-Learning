@@ -9,9 +9,8 @@ import seaborn as sns
 import tensorflow as tf
 from model import FeedBack
 from window import WindowGenerator
-from model import create_multi_conv_model
 from var import INPUT_WIDTH, OUT_STEPS
-MAX_EPOCHS = 50
+MAX_EPOCHS = 100
 
 multi_window = WindowGenerator(input_width=INPUT_WIDTH,
                                 label_width=OUT_STEPS,

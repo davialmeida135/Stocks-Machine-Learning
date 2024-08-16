@@ -14,7 +14,7 @@ class WindowGenerator():
         self.df = pd.read_csv('code5/stocks-2.csv', index_col='Date', parse_dates=True)
         # Filter the data to include only dates in 2024
         #self.df = self.df[(self.df.index.year == 2024) & (self.df.index.month < 2)]
-        self.df = self.df.loc['2019-06-01':]
+        self.df = self.df.loc['2020-06-01':]
         #self.df = self.df[self.df.index <= pd.to_datetime('2024-12-31')]
         mean = self.df.mean()
         std = self.df.std()
