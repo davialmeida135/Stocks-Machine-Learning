@@ -1,0 +1,9 @@
+3000 epocas
+
+Predizer Close só com o Close
+
+Removido Dropout (agora funciona)
+
+Num layers = 1 
+
+Sem batch size Implementado (Pipeline 2)

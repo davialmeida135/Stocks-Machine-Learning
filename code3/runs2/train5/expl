@@ -1,0 +1,5 @@
+3000 épocas
+2 features (Open e Volume)
+Predizer Close
+
+Adicionada camada de Dropout de 20% no fim do modelo

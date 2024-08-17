@@ -72,4 +72,4 @@ def perda_epocas():
     sns.lineplot(data=loss, x='Epoch', y='Loss')
     plt.show()
 
-perda_epocas()
+matriz_confusao()

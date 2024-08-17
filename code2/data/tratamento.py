@@ -11,8 +11,8 @@ df = pd.concat(company_list, axis=0)
 df.reset_index(inplace=True)
 df.sort_values(by=['company_name','Date'])
 df['Will Increase'] = df.groupby('company_name')[close].shift(-1) > df.groupby('company_name')[close].shift(0)
-df['close_variation'] = df.groupby('company_name')[close].shift(-1) - df.groupby('company_name')[close].shift(0)
-df['close_variation%'] = df.groupby('company_name')[close].shift(-1) / df.groupby('company_name')[close].shift(0)
+df['close_variation'] = df.groupby('company_name')[close].shift(0) - df.groupby('company_name')[close].shift(1)
+df['close_variation%'] = df.groupby('company_name')[close].shift(0) / df.groupby('company_name')[close].shift(1)
 
 def calculate_days_since(df):
     last_increase = 0

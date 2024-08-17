@@ -17,13 +17,13 @@ from evaluate import evaluate_model, inference
 
 # Carregar os dados
 datapath = Path('stocks.csv')
-features, target = load_data(datapath)
+features, target = load_data(datapath,'APPLE')
 
 # Preparar os dados
 X_train, X_val, X_test, y_train, y_val, y_test, device = prepare_data(features, target)
 
+input_size = features.shape[1]
 # Definir o modelo e as métricas
-input_size = 12
 hidden_size = 32
 num_layers = 2
 output_size = 1

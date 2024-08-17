@@ -1,0 +1,6 @@
+64
+model = Sequential()
+model.add(Bidirectional(LSTM(units=100, return_sequences=True), input_shape=(train_seq.shape[1], train_seq.shape[2])))
+model.add(Dropout(0.1))
+model.add(LSTM(units=100))
+model.add(Dense(1))
