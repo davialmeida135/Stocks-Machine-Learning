@@ -5,27 +5,17 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from sklearn.metrics import r2_score, mean_absolute_error
 import csv
+from var import train_df,val_df,test_df
 
 
 class WindowGenerator():
     def __init__(self, input_width, label_width, shift,
                 label_columns=None):
         
-        self.df = pd.read_csv('code5/stocks-2.csv', index_col='Date', parse_dates=True)
-        # Filter the data to include only dates in 2024
-        #self.df = self.df[(self.df.index.year == 2024) & (self.df.index.month < 2)]
-        self.df = self.df.loc['2020-06-01':]
-        #self.df = self.df[self.df.index <= pd.to_datetime('2024-12-31')]
-        mean = self.df.mean()
-        std = self.df.std()
-        self.norm_df = (self.df - mean) / std
-        
-
         # Split the data
-        self.train_df = self.norm_df.loc[:'2024-02-01']
-        print(self.train_df.head())
-        self.val_df = self.norm_df.loc['2024-01-01':'2024-5-31']
-        self.test_df = self.norm_df.loc['2024-02-01':]
+        self.train_df = train_df
+        self.val_df = val_df
+        self.test_df = test_df
 
         # Work out the label column indices.
         self.label_columns = label_columns

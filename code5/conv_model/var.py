@@ -1,6 +1,6 @@
 import pandas as pd
 OUT_STEPS = 24
-INPUT_WIDTH = 80
+INPUT_WIDTH = 64
 
 df = pd.read_csv('code5/stocks-2.csv', index_col='Date', parse_dates=True)
 # Filter the data to include only dates in 2024

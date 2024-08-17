@@ -51,7 +51,7 @@ def plot_2024():
 
     # Filter the data to include only dates in 2024
     #actual_df = actual_df[(actual_df.index.year == 2024) & (actual_df.index.month < 2)]
-    actual_df = actual_df.loc['2020-05-01':]
+    actual_df = actual_df.loc[:]
     #actual_df = actual_df[actual_df.index <= pd.to_datetime('2024-12-31')]
     mean = actual_df.mean()
     std = actual_df.std()
@@ -68,5 +68,5 @@ def plot_2024():
     plt.show()
 
 #plot_normal()
-plot_forecast()
-#plot_2024()
+#plot_forecast()
+plot_2024()
