@@ -36,7 +36,7 @@ def train_conv():
     multi_conv_model= create_multi_conv_model(OUT_STEPS, 1)
     compile_and_fit(multi_conv_model, multi_window)
     multi_conv_model.save('code5/conv_model.keras')
-    multi_window.plot(multi_conv_model, df = 'train')
+    multi_window.plot(multi_conv_model, df = 'val')
 
 train_conv()
 #train_conv()

@@ -23,7 +23,7 @@ multi_window = WindowGenerator(input_width=64,
                                label_width=OUT_STEPS,
                                shift=OUT_STEPS)
 
-multi_window.plot(model,max_subplots=1,df='test')
+multi_window.plot(model,max_subplots=3,df='test')
 
 '''multi_val_performance={}
 multi_performance = {}

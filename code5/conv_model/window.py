@@ -6,7 +6,7 @@ import matplotlib.dates as mdates
 from sklearn.metrics import r2_score, mean_absolute_error
 import csv
 from var import train_df,val_df,test_df
-
+from var import CONV_WIDTH
 
 
 class WindowGenerator():
@@ -222,7 +222,7 @@ class WindowGenerator():
         result = getattr(self, '_example', None)
         if result is None:
             # No example batch was found, so get one from the `.train` dataset
-            result = next(iter(self.make_dataset(df, shuffle=False)))
+            result = next(iter(self.make_dataset(df, shuffle=True)))
             # And cache it for next time
             self._example = result
         print('===++++++++++++++++==========')

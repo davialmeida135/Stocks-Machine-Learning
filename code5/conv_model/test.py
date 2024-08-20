@@ -8,7 +8,7 @@ from var import INPUT_WIDTH, OUT_STEPS, test_df
 tf.keras.config.enable_unsafe_deserialization()
 
 # Load the saved model
-model = tf.keras.models.load_model('code5/conv_model.keras')
+model = tf.keras.models.load_model('code5/conv_model.keras', compile=True)
 
 multi_window = WindowGenerator(input_width=INPUT_WIDTH,
                                label_width=OUT_STEPS,
@@ -17,7 +17,7 @@ multi_window = WindowGenerator(input_width=INPUT_WIDTH,
 multi_performance = {}
 multi_val_performance['AR LSTM'] = feedback_model.evaluate(multi_window.val)
 multi_performance['AR LSTM'] = feedback_model.evaluate(multi_window.test, verbose=0)'''
-multi_window.plot(model,max_subplots=1,df=test_df)
+multi_window.plot(model,max_subplots=3,df=test_df)
 #feedback_model.save('code5/feedback_model.keras')
 
 

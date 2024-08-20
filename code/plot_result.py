@@ -44,21 +44,25 @@ from sklearn.preprocessing import MinMaxScaler
 def plot_2024():
     # Read the actual data
     # Initialize the MinMaxScaler
-    scaler = MinMaxScaler()
+    from sklearn.discriminant_analysis import StandardScaler
+
+    scaler = StandardScaler()
 
     actual_df = pd.read_csv('code/stocks-2.csv', index_col='Date', parse_dates=True)
     
 
     # Filter the data to include only dates in 2024
     #actual_df = actual_df[(actual_df.index.year == 2024) & (actual_df.index.month < 2)]
-    actual_df = actual_df.loc[:]
+    #actual_df = actual_df.loc['2016-01-01':]
+    actual_df_scaled = pd.DataFrame(scaler.fit_transform(actual_df), index=actual_df.index, columns=actual_df.columns)
+
     #actual_df = actual_df[actual_df.index <= pd.to_datetime('2024-12-31')]
     mean = actual_df.mean()
     std = actual_df.std()
     actual_df = (actual_df - mean) / std
-    print(actual_df.tail())
+    print(actual_df_scaled.tail())
     # Plotting the data
-    ax = actual_df[['Close']].plot(figsize=(10, 6))
+    ax = actual_df_scaled[['Close']].plot(figsize=(10, 6))
     plt.xticks(rotation=45)
     plt.xlabel('Date', size=15)
     plt.ylabel('Stock Price', size=15)
@@ -67,6 +71,14 @@ def plot_2024():
     ax.minorticks_on()  # Enable minor ticks
     plt.show()
 
+def conta():
+    df = pd.read_csv('code/stocks-2.csv', index_col='Date', parse_dates=True)
+    df = df.loc['2024-03-01':]
+    print(df.shape)
+
+
+
 #plot_normal()
 #plot_forecast()
-plot_2024()
+#plot_2024()
+conta()

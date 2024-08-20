@@ -14,7 +14,7 @@ from tensorflow.keras.layers import GRU, Dense, Dropout
 # Load the data
 filename = 'code/stocks-2.csv'
 df = pd.read_csv(filename, index_col='Date', parse_dates=True)
-df = df['2021-01-01':'2023-12-31']
+df = df['2016-01-01':'2023-12-31']
 print(df.head())
 
 # Initialize the scaler
